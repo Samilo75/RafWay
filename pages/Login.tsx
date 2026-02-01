@@ -4,9 +4,10 @@ import { UserProfile } from '../types';
 interface LoginProps {
   onLogin: () => void;
   isLoading: boolean;
+  error?: string | null;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin, isLoading }) => {
+const Login: React.FC<LoginProps> = ({ onLogin, isLoading, error }) => {
   return (
     <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-background relative overflow-hidden">
       {/* Abstract Shapes */}
@@ -27,7 +28,22 @@ const Login: React.FC<LoginProps> = ({ onLogin, isLoading }) => {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <div className="bg-white py-10 px-8 shadow-2xl shadow-gray-200/50 sm:rounded-3xl border border-gray-100">
-            <div className="space-y-8">
+            <div className="space-y-6">
+                
+                {error && (
+                  <div className="rounded-xl bg-red-50 p-4 border border-red-100 flex gap-3 animate-fade-in-up">
+                    <div className="flex-shrink-0">
+                      <i className="fas fa-exclamation-circle text-red-500 mt-0.5"></i>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-red-800">Erreur de connexion</h3>
+                      <div className="mt-1 text-xs text-red-700">
+                        {error}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div>
                     <button
                         onClick={onLogin}

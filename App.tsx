@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Écouteur d'état d'authentification
   useEffect(() => {
@@ -74,12 +75,25 @@ const App: React.FC = () => {
 
   const handleLogin = async () => {
     setLoading(true);
+    setError(null);
     try {
       await signInWithPopup(auth, googleProvider);
       // La logique de suite est gérée par onAuthStateChanged
-    } catch (error) {
-      console.error("Erreur de connexion:", error);
+    } catch (err: any) {
+      console.error("Erreur de connexion:", err);
       setLoading(false);
+      
+      let errorMessage = "Une erreur est survenue lors de la connexion.";
+      
+      if (err.code === 'auth/unauthorized-domain') {
+        errorMessage = `Le domaine actuel (${window.location.hostname}) n'est pas autorisé. Ajoutez-le dans la console Firebase > Authentication > Settings > Authorized Domains.`;
+      } else if (err.code === 'auth/popup-closed-by-user') {
+        errorMessage = "Connexion annulée par l'utilisateur.";
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
     }
   };
 
@@ -124,7 +138,7 @@ const App: React.FC = () => {
       <Routes>
         <Route 
           path="/login" 
-          element={!userProfile ? <Login onLogin={handleLogin} isLoading={loading} /> : <Navigate to="/chat" />} 
+          element={!userProfile ? <Login onLogin={handleLogin} isLoading={loading} error={error} /> : <Navigate to="/chat" />} 
         />
         
         <Route
