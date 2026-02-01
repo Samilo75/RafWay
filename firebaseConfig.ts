@@ -2,31 +2,21 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// NOTE: Ceci est une configuration fictive pour la démonstration.
-// Dans un projet réel, utilisez vos vraies clés d'API depuis la console Firebase.
+// Configuration réelle du projet Raf Way
 const firebaseConfig = {
-  apiKey: "AIzaSyDummyKeyForDemoPurposesOnly",
-  authDomain: "raf-way-demo.firebaseapp.com",
-  projectId: "raf-way-demo",
-  storageBucket: "raf-way-demo.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
+  apiKey: "AIzaSyBQl1qyAm9HYhCbJL1lF9YFqowyk6vk730",
+  authDomain: "raf-way.firebaseapp.com",
+  projectId: "raf-way",
+  storageBucket: "raf-way.firebasestorage.app",
+  messagingSenderId: "916664315426",
+  appId: "1:916664315426:web:f8f9cf9259e7cc20e0247b",
+  measurementId: "G-MCLB93S87M"
 };
 
+// Initialisation de Firebase
 const app = initializeApp(firebaseConfig);
+
+// Export des services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
-
-// Simulation de l'état "local" pour la démo si Firebase n'est pas connectée réellement
-// Cela permet de tester l'UI sans configurer un backend réel immédiatement.
-export const isDemoMode = true; 
-
-export const mockUser = {
-  uid: "demo-user-123",
-  displayName: "Alex Dupont",
-  email: "alex@example.com",
-  photoURL: "https://picsum.photos/200",
-  isPremium: false,
-  messageCount: 0,
-};
